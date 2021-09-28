@@ -1,7 +1,9 @@
 Vue.component('product', {
 
     template: `
+
       <div class="product">
+
       <div class="product-image">
         <a v-bind:href="link"><img v-bind:src="image" alt=""></a>
       </div>
@@ -14,14 +16,17 @@ Vue.component('product', {
           <li v-for="index in productDetails">{{ index }}</li>
         </ul>
 
-        <p>
-          <exercise-form @exerciseAdded="addExercise"></exercise-form>
-        </p>
+
+        <name-form @setName="setUserName"></name-form>
+
+
+        <exercise-form @exerciseAdded="addExercise"></exercise-form>
 
         <div v-if="routines.length">
           <button v-on:click="sortList"><p v-if="!listSorted">Sort List</p>
             <p v-else-if="listSorted">Unsort List</p>
           </button>
+
         </div>
 
         <div>
@@ -68,8 +73,12 @@ Vue.component('product', {
                 }
             ],
             routines: [],
-            listSorted: false
+            listSorted: false,
+            username: ""
+
         }
+
+
     },
 
     methods: {
@@ -95,13 +104,25 @@ Vue.component('product', {
         sortList() {
             this.routines.sort((a, b) => (a.color > b.color) ? 1 : -1)
             this.listSorted = !this.listSorted;
+        },
+
+        setUserName(userInput) {
+            if (userInput) {
+                this.game = userInput
+            }
+
         }
 
     },
 
     computed: {
         title() {
-            return this.game + " " + this.product;
+            if (this.username) {
+                return this.username + " " + this.game + " " + this.product;
+            } else {
+                return this.game + " " + this.product;
+            }
+
         },
         image() {
             return this.sunBroSwoleGod[this.selectedVariant].variantImage
@@ -127,6 +148,34 @@ Vue.component('deleteForm', {
         onSubmit() {
 
             this.$emit('deletion', this.userInput)
+
+        }
+    },
+    data() {
+        return {
+            userInput: null
+        }
+    }
+})
+
+Vue.component('nameForm', {
+
+    template: `
+
+      <form class="name-form" @submit.prevent="onSubmit">
+      <p>
+        <label for="name">Enter Your Name:</label>
+        <input id="name" v-model="userInput" style="width: auto" placeholder="<Enter Name>">
+        <input type="submit" class="submitButton" value="Confirm">
+      </p>
+      </form>
+
+    `,
+    methods: {
+
+        onSubmit() {
+
+            this.$emit('setName', this.userInput)
 
         }
     },
@@ -195,12 +244,6 @@ Vue.component('exerciseForm', {
             this.exercise5 = null
 
         },
-
-        sortList() {
-
-        }
-
-
     }
 })
 
