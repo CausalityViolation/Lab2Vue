@@ -2,13 +2,13 @@ Vue.component('product', {
 
     template: `
 
-      <div class="product">
+      <div class="souls">
 
-      <div class="product-image">
+      <div class="SoulsImage">
         <a v-bind:href="link"><img v-bind:src="image" alt=""></a>
       </div>
 
-      <div class="product-info">
+      <div class="SoulsInfo">
         <h1>{{ title }}</h1>
         <p>{{ description }}</p>
 
@@ -57,7 +57,7 @@ Vue.component('product', {
     data() {
 
         return {
-            product: "Routine Rodeo",
+            gameSuffix: "Routine Rodeo",
             game: "Swole Souls",
             description: "Gaze at the sun, and bask in its welcoming warm embrace.",
             selectedVariant: 0,
@@ -118,9 +118,9 @@ Vue.component('product', {
     computed: {
         title() {
             if (this.username) {
-                return this.username + " " + this.game + " " + this.product;
+                return this.username + " " + this.game + " " + this.gameSuffix;
             } else {
-                return this.game + " " + this.product;
+                return this.game + " " + this.gameSuffix;
             }
 
         },
